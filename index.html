@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+#miBoton {
+    border: none;
+    background: transparent;
+}
+
+#miBoton:focus {
+    outline: none;
+}
+</style>
+<title>Comida Saludable</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #333333; /* color de fondo de la web */
+    color: #FFFFFF; /* Esto es para que el texto sea blanco y se pueda leer en el fondo oscuro */
+}
+h1 {
+    text-align: center;
+    color: #C9BE62;
+    background-color: #7F462C; /* Esto es un color sólido */
+    padding: 20px; /* Esto añade un poco de espacio alrededor del texto */
+}
+/* Estilos para los botones */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    color: #000000;
+    background-color: #F3E5AB;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+.btn:hover {
+    background-color: #6F4E37;
+}
+.btn.pulsado, .btn.pulsado:hover {
+    background-color: #6F4E37;
+    color: #ffffff;
+}
+/* Estilos responsivos */
+@media only screen and (max-width: 600px) {
+    h1 {
+        font-size: 18px;
+    }
+}
+@media only screen and (min-width: 601px) {
+    h1 {
+        font-size: 24px;
+    }
+}
+@media only screen and (min-width: 1000px) {
+    h1 {
+        font-size: 40px;
+    }
+}
+/* Estilos para el banner */
+#banner {
+    position: relative;
+    width: 100%;
+    height: 500px;
+}
+#banner img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+#banner img.active {
+    opacity: 1;
+}
+iframe {
+    background-color: #000000; /* color de fondo del iframe en modo oscuro */
+}
+</style>
+<script>
+var botonPulsado = null;
+var audioEnabled = false;
+
+function start() {
+    audioEnabled = true;
+}
+
+function loadPage(pageUrl, btn) {
+    // Carga la página en el iframe
+    document.getElementById('content').src = pageUrl;
+
+    // Si hay un botón pulsado actualmente, quita la clase 'pulsado'
+    if (botonPulsado) {
+        botonPulsado.classList.remove('pulsado');
+    }
+
+    // Añade la clase 'pulsado' al botón que fue clickeado
+    btn.classList.add('pulsado');
+
+    // Actualiza el botón pulsado actualmente
+    botonPulsado = btn;
+}
+
+window.onload = function() {
+    var images = document.querySelectorAll('#banner img');
+    var currentImageIndex = 0;
+
+    images[currentImageIndex].classList.add('active');
+
+    setInterval(function() {
+        images[currentImageIndex].classList.remove('active');
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        images[currentImageIndex].classList.add('active');
+    }, 2500);  // Cambia las imágenes cada 5 segundos
+
+    // Añade el evento 'mouseover' a todos los botones
+    var buttons = document.querySelectorAll('.btn');
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('mouseover', function() {
+            if (audioEnabled) {
+                var audio = document.getElementById('sonidoBoton');
+                audio.play();
+            }
+        });
+    }
+
+    // Habilita el audio al cargar la página
+    start();
+};
+</script>
+
+</head>
+<body>
+<div id="banner">
+    <img src="/imagenes/imagen1.jpg" alt="Imagen 1">
+    <img src="/imagenes/imagen2.jpg" alt="Imagen 2">
+    <img src="/imagenes/imagen3.jpg" alt="Imagen 3">
+    <img src="/imagenes/imagen4.jpg" alt="Imagen 4">
+    <img src="/imagenes/imagen5.jpg" alt="Imagen 5">
+    <img src="/imagenes/imagen6.jpg" alt="Imagen 6">
+    <!-- Agrega más imágenes según sea necesario -->
+</div>
+<h1 class="animated">¡Bienvenido a nuestra página de Comida Saludable!</h1>
+<!-- Tu archivo de audio -->
+<audio id="sonidoBoton" src="/botonAudio.mp3"></audio>
+<!-- Menú de botones -->
+<button class="btn" onclick="loadPage('recetas.html', this)">Recetas Saludables</button>
+<button class="btn" onclick="loadPage('consejos.html', this)">Consejos Saludables</button>
+
+<!-- Aquí es donde se cargarán las subpáginas -->
+<iframe id="content" style="width: 100%; height: 500px; background: #1e1e1e url('ImagenIframe.jpg') no-repeat center center; 
+background-size: cover; border: 1px solid #000000;"></iframe>
+</body>
+</html>
